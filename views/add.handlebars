@@ -1,0 +1,70 @@
+<div class="jumbotron">
+  <h3 class="text-center"><em>Multiple Choice Only</em></h3>
+  <form id="qform">
+    <div class="form-group">
+      <label for="newQuestion">Question: </label>
+      <textarea class="form-control" id="newQuestion" rows="3" name="text" placeholder="Please Enter Question"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select class="form-control" id="category" name="category">
+        <option disabled selected value> -- select an option -- </option>
+        <option>History</option>
+        <option>Pop Culture</option>
+        <option>Movies</option>
+        <option>Sports</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="answer1">Correct Answer</label>
+      <input type="text" class="form-control answer" id="answer1" name="true">
+    </div>
+    <div class="form-group">
+      <label for="answer2">Answer</label>
+      <input type="text" class="form-control answer" id="answer2" name="false">
+    </div>
+    <div class="form-group">
+      <label for="answer3">Answer</label>
+      <input type="text" class="form-control answer" id="answer3" name="false">
+    </div>
+    <div class="form-group">
+      <label for="answer4">Answer</label>
+      <input type="text" class="form-control answer" id="answer4" name="false">
+    </div>
+    <button id='qbtn' class='btn btn-primary' type='submit'>Submit Question</button>
+  </form>
+</div>
+
+
+
+{{!-- The below section can be modularized with middleware --}}
+<script>
+
+  $("#qform").on("submit", function (event) {
+    event.preventDefault();
+    var answers = $(".answer").serializeArray();
+    var parsed = answers.map(function (item) {
+      return {
+        correct: item.name,
+        response: item.value,
+      }
+    })
+
+    var qObj = {
+      text: $('#newQuestion').val().trim(),
+      category: $('#category').val().trim(),
+      answerType: 'Multiple Choice',
+      verfied: true,
+      answers: JSON.stringify(parsed)
+    };
+
+    $.ajax({
+      method: "POST",
+      url: "/api/add",
+      data: qObj
+    }).then(function(data){
+      window.location = "/thanks"
+    })
+  })
+
+</script>

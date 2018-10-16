@@ -1,0 +1,12 @@
+<div class="jumbotron">
+  <h3>Question: {{question}}</h3>
+
+  <br>
+  <p>
+    <h4>Please choose an answer:</h4>
+    {{#each answer}}
+    <button class="btn btn-primary" data-correct="{{this.correct}}">{{this.response}}</button>
+    {{/each}}
+  </p>
+
+</div>
